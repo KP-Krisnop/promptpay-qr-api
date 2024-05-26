@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Prompt Pay</title>
+</head>
+
+<body>
+    <div>
+        <input type="number" id="amount" placeholder="amount">
+        <input type="tel" id="mobileNumber" placeholder="mobile number">
+        <button onclick="genQR()">Generate</button>
+    </div>
+    <img src="" alt="QR" id="imgqr" style="width: 256px; object-fit: contain;">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+        const qrCodeImg = document.querySelector('#imgqr');
+
+        function genQR() {
+            $.ajax({
+                method: 'post',
+                url: 'http://localhost:3000/generateQR',
+                data: {
+                    amount: parseFloat($("#amount").val()),
+                    mobileNumber: $('#mobileNumber').val()
+                },
+                success: function (response) {
+                    console.log('good', response);
+                    $('#imgqr').attr('src', response.Result);
+                }, error: function (err) {
+                    console.log('bad', err);
+                }
+            });
+        };
+    </script>
+</body>
+
+</html>
